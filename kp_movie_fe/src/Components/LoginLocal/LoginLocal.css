@@ -1,0 +1,11 @@
+form {
+  width: 300px;
+  background-color: aqua;
+  margin: 150px auto;
+  padding: 30px;
+}
+
+input {
+  height: 30px;
+  width: 250px;
+}
