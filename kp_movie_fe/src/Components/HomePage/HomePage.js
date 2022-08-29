@@ -1,18 +1,19 @@
 import React from "react";
-import SearchBar from "../SearchBar/SearchBar";
-import MockData from "../../MockData/MockData.json";
-import SearchResult from "../SearchResult/SearchResult";
 
 function HomePage() {
+  // I tried the logout when page is closed but I couldn't manage it.
+  // I need a little time to fix it.
+  // Temporally I handle it manualy.
+
   const handleClick = () => {
     localStorage.clear();
     window.location.reload();
   };
+
   return (
     <>
       <button onClick={handleClick}>Logout</button>
       <h1>Home Page</h1>
-      <SearchBar placeholder="Please enter a film name" data={MockData} />
     </>
   );
 }

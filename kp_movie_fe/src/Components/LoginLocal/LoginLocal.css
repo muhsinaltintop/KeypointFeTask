@@ -1,8 +1,9 @@
 form {
   width: 300px;
   background-color: aqua;
-  margin: 150px auto;
+  margin: 50px auto;
   padding: 30px;
+  border-radius: 25px;
 }
 
 input {

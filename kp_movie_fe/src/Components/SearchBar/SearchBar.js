@@ -1,34 +1,58 @@
 import React, { useState } from "react";
+import axios from "axios";
 import SearchResult from "../SearchResult/SearchResult";
+import SingleMoviePage from "../SingleMoviePage/SingleMoviePage";
 import "./SearchBar.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-function SearchBar({ placeholder, data }) {
-  const [search, setSearch] = useState("");
-  const [result, setResult] = useState([]);
-  const [searchInfo, setSearchInfo] = useState({});
+function SearchBar({ placeholder }) {
+  const [searchText, setSearchText] = useState("");
+  const [movieData, setMovieData] = useState({});
+  const API_KEY = process.env.REACT_APP_API_KEY;
 
-  const handleSearch = (event) => {
-    const searchWord = event.target.value;
-    const newSearch = data.filter((value) => {
-      return value.title.toLowerCase().includes(searchWord.toLowerCase());
-    });
-  };
+  function searchForMovies(e) {
+    var APICallString = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchText}&page=1&include_adult=false`;
+
+    axios
+      .get(APICallString)
+      .then(function (response) {
+        //Success
+        setMovieData(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+        throw error;
+        //error
+      });
+  }
+
   return (
-    <>
+    <div>
       <form>
+        <h5>Movie Search</h5>
         <input
-          type="text"
           placeholder={placeholder}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onSubmit={handleSearch}
+          type="text"
           autoFocus
-        ></input>
-        <button type="submit">Search</button>
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+        <button
+          type="submit"
+          onClick={(e) => {
+            e.preventDefault();
+            searchForMovies(e);
+          }}
+        >
+          Search
+        </button>
       </form>
-
-      <SearchResult result={result} />
-    </>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SearchResult data={movieData} />} />
+          <Route path="/movie/:movie_id" element={<SingleMoviePage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

@@ -1,18 +1,27 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function SearchResult({ result }) {
+function SearchResult({ data }) {
   return (
     <>
       <div>
-        <h3>Result</h3>
         <div className="searchResult">
-          {result.map((data, key) => {
-            return (
-              <a className="dataItem" href={data.homepage} target="_blank">
-                <p>{data.title}</p>
-              </a>
-            );
-          })}
+          {JSON.stringify(data) !== "{}" ? (
+            <>
+              <h3>Result</h3>
+              {data.results.map((result, key) => {
+                return (
+                  <>
+                    <Link key={result.id} to={`/movie/${result.id}`}>
+                      <p>{result.title}</p>
+                    </Link>
+                  </>
+                );
+              })}
+            </>
+          ) : (
+            <p></p>
+          )}
         </div>
       </div>
     </>
