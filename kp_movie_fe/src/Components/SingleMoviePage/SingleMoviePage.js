@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import "./SingleMoviePage.css";
 
 function SingleMoviePage() {
   const API_KEY = process.env.REACT_APP_API_KEY;
@@ -23,11 +24,11 @@ function SingleMoviePage() {
         //error
         console.log(error);
       });
-  }, []);
+  }, [APICallForSinglePage]);
 
   return (
     <div>
-      <div className="container">
+      <div className="single_movie">
         <h5>Single Movie</h5>
 
         <p>{singleMovieData.title}</p>

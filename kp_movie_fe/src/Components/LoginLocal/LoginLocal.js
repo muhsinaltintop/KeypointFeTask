@@ -18,7 +18,9 @@ function LoginLocal() {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="email">email:</label>
+        <label className="form_header" htmlFor="email">
+          email:
+        </label>
         <br />
         <input
           type="email"
@@ -29,7 +31,9 @@ function LoginLocal() {
           required
         />
         <br />
-        <label htmlFor="pwd">Password:</label>
+        <label className="form_header" htmlFor="pwd">
+          Password:
+        </label>
         <br />
         <input
           type="password"

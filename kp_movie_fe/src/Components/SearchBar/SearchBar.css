@@ -1,6 +1,6 @@
 form {
   width: 300px;
-  background-color: aqua;
+  background-color: #2a0944;
   margin: 20px auto;
   padding: 30px;
   border-radius: 25px;
@@ -9,4 +9,14 @@ form {
 .search input {
   height: 30px;
   width: 250px;
+}
+
+.search_button {
+  background-color: #3fa796;
+  color: whitesmoke;
+  border-radius: 20px;
+  margin: 0% 65%;
+}
+.form_header {
+  color: #3fa796;
 }

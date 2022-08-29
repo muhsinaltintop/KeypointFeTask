@@ -1,4 +1,5 @@
 import React from "react";
+import "./HomePage.css";
 
 function HomePage() {
   // I tried the logout when page is closed but I couldn't manage it.
@@ -13,7 +14,9 @@ function HomePage() {
   return (
     <>
       <button onClick={handleClick}>Logout</button>
-      <h1>Home Page</h1>
+      <div className="header">
+        <h3>The Movie Database </h3>
+      </div>
     </>
   );
 }
