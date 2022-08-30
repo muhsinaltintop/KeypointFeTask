@@ -1,43 +1,45 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import SearchResult from "../SearchResult/SearchResult";
 import SingleMoviePage from "../SingleMoviePage/SingleMoviePage";
 import "./SearchBar.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { searchMovies } from "../../utils/api";
 
-function SearchBar({ placeholder }) {
+const SearchBar = () => {
   const [searchText, setSearchText] = useState("");
   const [movieData, setMovieData] = useState({});
-  const API_KEY = process.env.REACT_APP_API_KEY;
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   let navigate = useNavigate();
 
-  function searchForMovies(e) {
-    var APICallString = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchText}&page=1&include_adult=false`;
-
-    axios
-      .get(APICallString)
-      .then(function (response) {
-        //Success
-        setMovieData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-        throw error;
-        //error
-      });
-  }
+  useEffect(() => {
+    //It sents request to database without searchText, this causes error. I checked here if the search text is exist or not.
+    setIsLoading(true);
+    setError(null);
+    searchText ? (
+      searchMovies(searchText)
+        .then((moviesFromAPI) => {
+          setMovieData(moviesFromAPI);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+    ) : (
+      <p></p>
+    );
+  }, [searchText]);
 
   return (
     <div>
       <form>
         <h5 className="form_header">Saerch Bar</h5>
         <input
-          placeholder={placeholder}
           type="text"
           autoFocus
           onChange={(e) => {
-            searchForMovies(e);
             setSearchText(e.target.value);
+            SearchBar();
           }}
         />
         <button
@@ -46,7 +48,7 @@ function SearchBar({ placeholder }) {
           onClick={(e) => {
             e.preventDefault();
             navigate("/");
-            searchForMovies(e);
+            SearchBar();
           }}
         >
           Search
@@ -54,12 +56,15 @@ function SearchBar({ placeholder }) {
       </form>
 
       <Routes>
-        <Route path="/" element={<SearchResult data={movieData} />} />
+        <Route
+          path="/"
+          element={<SearchResult isLoading={isLoading} data={movieData} />}
+        />
         <Route path="/movie/:movie_id" element={<SingleMoviePage />} />
       </Routes>
     </div>
   );
-}
+};
 
 export default SearchBar;
 

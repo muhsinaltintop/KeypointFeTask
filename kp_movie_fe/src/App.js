@@ -10,15 +10,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <HomePage />
+      {getEmail && getPassword ? <HomePage /> : <p></p>}
       {/* Checking if local storage is keeping email and password.
       This level will check it every single page.      
     */}
-      {getEmail && getPassword ? (
-        <SearchBar placeholder="Enter keyword" />
-      ) : (
-        <LoginLocal />
-      )}
+      {getEmail && getPassword ? <SearchBar /> : <LoginLocal />}
     </BrowserRouter>
   );
 }

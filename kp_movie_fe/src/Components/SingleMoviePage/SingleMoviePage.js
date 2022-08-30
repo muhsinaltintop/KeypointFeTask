@@ -1,30 +1,39 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./SingleMoviePage.css";
+import { fetchPosterImg, fetchSingleMovie } from "../../utils/api";
 
 function SingleMoviePage() {
-  const API_KEY = process.env.REACT_APP_API_KEY;
   const [singleMovieData, setSingleMovieData] = useState({});
+  const [error, setError] = useState(null);
+  const [imgURL, setImgURL] = useState("");
   const { movie_id } = useParams();
-  var imgURL = `https://image.tmdb.org/t/p/original/${singleMovieData.poster_path}`;
-  var APICallForSinglePage = `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}`;
-
-  console.log(movie_id);
 
   useEffect(() => {
-    axios
-      .get(APICallForSinglePage)
-      .then(function (response) {
-        //Success
-        setSingleMovieData(response.data);
-        console.log(response.data);
+    //Sents request and there is a 404 for picture but picture appears. !!! Eror can not be solves.
+    singleMovieData ? (
+      fetchSingleMovie(movie_id)
+        .then((singleMovieFromAPI) => {
+          setSingleMovieData(singleMovieFromAPI);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+    ) : (
+      <p></p>
+    );
+  }, [movie_id]);
+
+  useEffect(() => {
+    fetchPosterImg(singleMovieData)
+      .then((singleMovieImgFromAPI) => {
+        setImgURL(singleMovieImgFromAPI);
+        console.log(singleMovieImgFromAPI);
       })
-      .catch(function (error) {
-        //error
-        console.log(error);
+      .catch((error) => {
+        setError(error);
       });
-  }, [APICallForSinglePage]);
+  }, [singleMovieData]);
 
   return (
     <div>
