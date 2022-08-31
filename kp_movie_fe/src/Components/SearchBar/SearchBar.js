@@ -39,7 +39,6 @@ const SearchBar = () => {
           autoFocus
           onChange={(e) => {
             setSearchText(e.target.value);
-            SearchBar();
           }}
         />
         <button
@@ -48,7 +47,6 @@ const SearchBar = () => {
           onClick={(e) => {
             e.preventDefault();
             navigate("/");
-            SearchBar();
           }}
         >
           Search
